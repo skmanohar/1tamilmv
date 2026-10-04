@@ -46,6 +46,21 @@ is rejected with *"Plugin tamil is not supported."*.
 Requires Python ≥ 3.7. Only the Python standard library is used (plus the
 `helpers` / `novaprinter` runtime modules that ship with qBittorrent).
 
+### Updating the plugin
+
+qBittorrent only auto-updates the plugins listed in the *official* source
+(`qbittorrent/search-plugins`, `master` branch). A plugin like this one is
+installed by hand, so bump `# VERSION:` before reinstalling: qBittorrent
+refuses a file whose version is not newer than the installed one
+(*"A more recent version of this plugin is already installed."*). The version
+must have exactly two numeric components (`1.1`, not `1` or `1.1.2`).
+
+Installing from a URL works too (local file picker → *URL*, or the WebUI's
+*Install a search plugin* box): append the plugin name to a raw link, e.g.
+`https://raw.githubusercontent.com/<you>/<repo>/refs/heads/main/tamilmv.py`.
+The plugin name is taken from the last path segment minus `.py`, so the URL
+must end in `/tamilmv.py` (or one of the accepted variants).
+
 ### "Plugin <name> is not supported."
 
 qBittorrent reports this whenever the engine does not appear in the search
