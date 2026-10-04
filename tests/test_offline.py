@@ -172,6 +172,13 @@ def test_full_search_movies():
     assert first[3] == '-1' and first[4] == '-1'  # seeds/leech unknown
 
 
+def test_engine_class_is_reachable_under_common_file_names():
+    # qBittorrent looks the engine up as ``getattr(module, <file stem>)``, so
+    # every plausible file name must expose a matching attribute.
+    for alias in ('tamilmv', '1tamilmv', 'TamilMV', '1TamilMV'):
+        assert getattr(ENGINE, alias) is ENGINE.tamilmv
+
+
 def test_first_working_base_skips_interstitials():
     eng = ENGINE.tamilmv()
     eng._RETRY_DELAY = 0.0
@@ -239,6 +246,7 @@ if __name__ == '__main__':
     test_magnet_and_torrent_dedup_prefers_torrent_file()
     test_plain_text_magnet()
     test_full_search_movies()
+    test_engine_class_is_reachable_under_common_file_names()
     test_first_working_base_skips_interstitials()
     test_first_working_base_none_when_all_broken()
     test_get_retries_empty_response_then_succeeds()

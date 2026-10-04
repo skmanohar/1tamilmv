@@ -35,11 +35,32 @@ Result fields:
 1. Download `tamilmv.py` (this repo).
 2. In qBittorrent open the **Search** tab.
 3. Click **Search engines...** → **Install a new one** → select `tamilmv.py`.
-4. The engine shows up as **1TamilMV**. (The class name and file name both
-   being `tamilmv` is required by qBittorrent.)
+4. The engine shows up as **1TamilMV**.
+
+qBittorrent names the engine after the plugin *file* and then looks up a class
+of the same name, so `tamilmv.py` is the canonical file name. Saving it as
+`1tamilmv.py`, `TamilMV.py` or `1TamilMV.py` also works — the plugin
+registers aliases for those spellings — but any other name (say `tamil.py`)
+is rejected with *"Plugin tamil is not supported."*.
 
 Requires Python ≥ 3.7. Only the Python standard library is used (plus the
 `helpers` / `novaprinter` runtime modules that ship with qBittorrent).
+
+### "Plugin <name> is not supported."
+
+qBittorrent reports this whenever the engine does not appear in the search
+runtime's capability list, which happens for **every** plugin when its
+bundled `nova3` runtime cannot run (qBittorrent ≥ 5.2 needs a recent Python 3,
+and it must be on qBittorrent's `PATH`). To tell the two cases apart, run the
+probe qBittorrent itself runs:
+
+```bash
+python3 -I -X utf8 "<data-dir>/nova3/nova2.py" --capabilities --names
+```
+
+`tamilmv` missing from that list means an import/runtime problem — check the
+qBittorrent log for the line `Error occurred when fetching search engine
+capabilities. Error: "..."`, it contains the underlying Python error.
 
 ## Categories
 

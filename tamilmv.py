@@ -399,6 +399,17 @@ class tamilmv:
                     break
 
 
+# qBittorrent names the engine after the plugin *file* and then looks up a
+# class of that name (``getattr(module, module_name)``), so the canonical file
+# name is ``tamilmv.py``.  People routinely save it as ``1tamilmv.py`` instead
+# (or capitalise it), which fails with "Plugin 1tamilmv is not supported."
+# because a Python class cannot be named ``1tamilmv`` at all.  Register the
+# plausible aliases so those file names install too.
+for _alias in ('1tamilmv', 'TamilMV', '1TamilMV', 'tamilmv'):
+    globals().setdefault(_alias, tamilmv)
+del _alias
+
+
 if __name__ == '__main__':
     # Minimal offline sanity check (no network required):
     #   python3 tamilmv.py
